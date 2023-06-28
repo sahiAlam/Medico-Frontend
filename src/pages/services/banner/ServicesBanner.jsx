@@ -7,7 +7,7 @@ const ServicesBanner = () => {
       <img
         src={serviceBanner}
         alt="bannerContactImg"
-        className="object-cover w-full h-screen bg-opacity-90"
+        className="object-cover w-full h-screen bg-opacity-90 blur-sm"
       />
 
       <div className=" top-[50%] translate-y-[-50%] absolute left-[50%] translate-x-[-50%] flex flex-col md:flex-row gap-5 justify-between  container px-2 lg:px-32">
