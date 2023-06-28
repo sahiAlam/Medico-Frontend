@@ -11,7 +11,7 @@ const ServicesBanner = () => {
       />
 
       <div className=" top-[50%] translate-y-[-50%] absolute left-[50%] translate-x-[-50%] flex flex-col md:flex-row gap-5 justify-between  container px-2 lg:px-32">
-        <div className="mt-10 md:mt-20">
+        <div className="md:mt-20">
           <h1 className="text-white text-4xl md:text-6xl font-bold">
             Meet the Best <br /> Hospital
           </h1>
