@@ -4,7 +4,7 @@ import { FaFacebookF } from "react-icons/fa";
 const Footer = () => {
   return (
     <>
-      <div className="bg-btnColor w-full py-20 md:py-36">
+      <div className="bg-btnColor w-full  py-20 md:py-36">
         <div className="container mx-auto grid gap-10 md:grid-cols-4 lg:grid-cols-6 text-white px-2 md:px-10">
           <div className="text-center md:col-span-2">
             <h2 className="text-4xl md:text-5xl font-bold">
