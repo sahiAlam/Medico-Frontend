@@ -1,5 +1,5 @@
 import React from "react";
-import BannerContact from "./banner/bannerContact";
+import BannerContact from "./banner/BannerContact";
 import ContactForm from "./contactForm/ContactForm";
 
 const ContactUs = () => {
