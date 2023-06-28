@@ -1,0 +1,6 @@
+/* Font Family */
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+Ottoman+Siyaq&family=Ysabeau+Office:wght@400;500&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
