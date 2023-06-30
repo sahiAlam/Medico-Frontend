@@ -28,7 +28,7 @@ const DoctorSearching = () => {
   return (
     <>
       <div className="container mx-auto px-2 md:px-10">
-        <div className=" bg-white p-5 rounded-xl">
+        <div className=" bg-white p-5 rounded-xl shadow-md">
           <h2 className="capitalize font-bold text-2xl md:text-3xl mb-3">
             find a doctor
           </h2>

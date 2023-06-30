@@ -54,7 +54,7 @@ const ContactForm = () => {
             </p>
           </div>
 
-          <div className="py-12 lg:px-44 w-full">
+          <div className="py-10 lg:px-44 w-full bg-white p-4 rounded-2xl my-10 shadow-md">
             <div className="md:flex justify-between w-full gap-5">
               <div className="my-3 w-full">
                 <label htmlFor="firstName">First Name : </label>
@@ -126,7 +126,7 @@ const ContactForm = () => {
 
             <div>
               <button
-                className="bg-btnColor w-2/5 md:w-36 hover:bg-green hover:scale-105 hover:transition-all block mx-auto border-0 p-2 text-white text-xl rounded-xl mt-2"
+                className="bg-btnColor w-2/5 md:w-36 md:hover:bg-green md:hover:scale-105 md:hover:transition-all block mx-auto border-0 p-2 text-white text-xl rounded-xl mt-2"
                 onClick={handleSubmitContactForm}
               >
                 Submit

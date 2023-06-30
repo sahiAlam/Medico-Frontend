@@ -3,8 +3,11 @@ import Logo from "../logo/Logo";
 import { Link, NavLink } from "react-router-dom";
 import Hamburger from "hamburger-react";
 
+import { useAuth0 } from "@auth0/auth0-react";
+
 const Header = () => {
   const [mobileMenu, setMobileMenu] = useState(false);
+  const { loginWithRedirect, isAuthenticated, logout, user } = useAuth0();
 
   const navLinks = [
     {
@@ -21,11 +24,6 @@ const Header = () => {
       id: 3,
       text: "contact us",
       to: "/contactUs",
-    },
-    {
-      id: 4,
-      text: "schedule",
-      to: "/schedule",
     },
   ];
   return (
@@ -56,7 +54,7 @@ const Header = () => {
                     <li
                       href="#"
                       key={item.id}
-                      className="my-5 capitalize font-para text-2xl md:text-lg md:hover:text-btnColor md:hover:transition-all text-white"
+                      className="my-5 capitalize font-para text-2xl  md:hover:text-btnColor md:hover:transition-all text-white"
                       onClick={() => setMobileMenu(false)}
                     >
                       <NavLink to={item.to}>{item.text}</NavLink>
@@ -64,20 +62,26 @@ const Header = () => {
                   ))}
 
                   <div className="md:hidden mt-10">
-                    <Link
-                      to={"register"}
-                      className="inline-block px-6 py-2 rounded-lg font-bold mr-2 text-white font-para bg-btnColor"
-                      onClick={() => setMobileMenu(false)}
-                    >
-                      Sign Up
-                    </Link>
-                    <Link
-                      to={"login"}
-                      className="inline-block px-6 py-2 rounded-lg font-bold bg-btnColor text-white font-para"
-                      onClick={() => setMobileMenu(false)}
-                    >
-                      Log In
-                    </Link>
+                    {isAuthenticated && <p>{user.name}</p>}
+                    {isAuthenticated ? (
+                      <button
+                        className="block px-3 text-sm py-2 rounded-lg text-white bg-btnColor font-para md:hover:bg-green md:transition-all mt-3"
+                        onClick={() =>
+                          logout({
+                            logoutParams: { returnTo: window.location.origin },
+                          })
+                        }
+                      >
+                        Log Out
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => loginWithRedirect()}
+                        className="inline-block px-4 py-2 rounded-lg mr-6 text-white bg-btnColor font-para md:hover:bg-green md:transition-all"
+                      >
+                        Log In
+                      </button>
+                    )}
                   </div>
                 </ul>
               </>
@@ -95,19 +99,25 @@ const Header = () => {
             </div>
           </div>
 
-          <div className="hidden md:flex">
-            <Link
-              to={"register"}
-              className="inline-block px-2 py-2 rounded-lg font-bold mr-6 text-btnColor font-para md:hover:text-green md:transition-all"
-            >
-              Sign Up
-            </Link>
-            <Link
-              to={"login"}
-              className="inline-block px-6 py-2 rounded-lg font-bold bg-btnColor text-white font-para  md:hover:bg-green md:hover:transition-all"
-            >
-              Log In
-            </Link>
+          <div className="hidden md:flex items-center">
+            {isAuthenticated && <p className="md:mr-4">Hii, {user.name}</p>}
+            {isAuthenticated ? (
+              <button
+                className="inline-block px-3 text-sm py-2 rounded-lg text-white bg-btnColor font-para md:hover:bg-green md:transition-all"
+                onClick={() =>
+                  logout({ logoutParams: { returnTo: window.location.origin } })
+                }
+              >
+                Log Out
+              </button>
+            ) : (
+              <button
+                onClick={() => loginWithRedirect()}
+                className="inline-block px-4 py-2 rounded-lg text-white bg-btnColor font-para md:hover:bg-green md:transition-all"
+              >
+                Log In
+              </button>
+            )}
           </div>
 
           {/* Mobile Hamburger menu  */}

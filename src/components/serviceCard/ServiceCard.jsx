@@ -3,7 +3,6 @@ import { AiOutlineArrowRight } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
 const ServiceCard = ({ serviceData }) => {
-  console.log(serviceData);
   return (
     <>
       <div className="bg-white p-4 rounded-2xl">
