@@ -1,126 +1,62 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "../logo/Logo";
-import { Link, NavLink } from "react-router-dom";
-import Hamburger from "hamburger-react";
 
-import { useAuth0 } from "@auth0/auth0-react";
+import { BiSolidUserCircle } from "react-icons/bi";
+import { MdLightMode, MdDarkMode } from "react-icons/md";
 
 const Header = () => {
-  const [mobileMenu, setMobileMenu] = useState(false);
-  const { loginWithRedirect, isAuthenticated, logout, user } = useAuth0();
+  const [theme, setTheme] = useState("dark");
+  const [profilePopup, setProfilePopup] = useState(false);
 
-  const navLinks = [
-    {
-      id: 1,
-      text: "home",
-      to: "/",
-    },
-    {
-      id: 2,
-      text: "services",
-      to: "/services",
-    },
-    {
-      id: 3,
-      text: "contact us",
-      to: "/contactUs",
-    },
-  ];
+  useEffect(() => {
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [theme]);
+
   return (
     <>
-      <div className="bg-gray">
-        <div className="lg:container lg:px-10 mx-auto flex items-center justify-between h-12 md:h-16 px-2 md:py-8">
-          <div className="z-10">
+      <div className="dark:bg-black md:sticky top-0 shadow-md ">
+        <div className="lg:container lg:px-10 mx-auto flex items-center justify-between h-12 md:h-16 px-4 md:py-10">
+          <div>
             <Logo />
           </div>
-          <div>
-            <ul className="hidden md:flex">
-              {navLinks.map((item) => (
-                <li
-                  href="#"
-                  key={item.id}
-                  className="ml-8 lg:ml-12 capitalize text-darkBlack font-para md:text-lg md:hover:text-btnColor md:hover:transition-all"
-                >
-                  <NavLink to={item.to}>{item.text}</NavLink>
-                </li>
-              ))}
-            </ul>
-
-            {/* Mobile Hamburger Menu  */}
-            {mobileMenu ? (
-              <>
-                <ul className="flex items-center justify-center flex-col absolute top-12 left-0 z-10 w-full h-full bg-gradient-to-b from-btnColor to-green drop-shadow-xl transition-all">
-                  {navLinks.map((item) => (
-                    <li
-                      href="#"
-                      key={item.id}
-                      className="my-5 capitalize font-para text-2xl  md:hover:text-btnColor md:hover:transition-all text-white"
-                      onClick={() => setMobileMenu(false)}
-                    >
-                      <NavLink to={item.to}>{item.text}</NavLink>
-                    </li>
-                  ))}
-
-                  <div className="md:hidden mt-10">
-                    {isAuthenticated && <p>{user.name}</p>}
-                    {isAuthenticated ? (
-                      <button
-                        className="block px-3 text-sm py-2 rounded-lg text-white bg-btnColor font-para md:hover:bg-green md:transition-all mt-3"
-                        onClick={() =>
-                          logout({
-                            logoutParams: { returnTo: window.location.origin },
-                          })
-                        }
-                      >
-                        Log Out
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => loginWithRedirect()}
-                        className="inline-block px-4 py-2 rounded-lg mr-6 text-white bg-btnColor font-para md:hover:bg-green md:transition-all"
-                      >
-                        Log In
-                      </button>
-                    )}
-                  </div>
-                </ul>
-              </>
-            ) : null}
-
-            {/* Hamburger menu Icon  */}
-            <div className="md:hidden text-btnColor">
-              <Hamburger
-                direction="right"
-                size={25}
-                duration={0.2}
-                toggled={mobileMenu}
-                toggle={setMobileMenu}
+          <div className="flex items-center gap-5 md:relative">
+            {theme === "dark" ? (
+              <MdLightMode
+                size={22}
+                color="white"
+                className="cursor-pointer"
+                onClick={() => setTheme("light")}
               />
-            </div>
-          </div>
-
-          <div className="hidden md:flex items-center">
-            {isAuthenticated && <p className="md:mr-4">Hii, {user.name}</p>}
-            {isAuthenticated ? (
-              <button
-                className="inline-block px-3 text-sm py-2 rounded-lg text-white bg-btnColor font-para md:hover:bg-green md:transition-all"
-                onClick={() =>
-                  logout({ logoutParams: { returnTo: window.location.origin } })
-                }
-              >
-                Log Out
-              </button>
             ) : (
-              <button
-                onClick={() => loginWithRedirect()}
-                className="inline-block px-4 py-2 rounded-lg text-white bg-btnColor font-para md:hover:bg-green md:transition-all"
-              >
-                Log In
-              </button>
+              <MdDarkMode
+                size={22}
+                className="cursor-pointer"
+                onClick={() => setTheme("dark")}
+              />
+            )}
+
+            <BiSolidUserCircle
+              size={30}
+              className="cursor-pointer"
+              onClick={() => setProfilePopup(!profilePopup)}
+              color={theme === "light" ? "" : "white"}
+            />
+
+            {profilePopup && (
+              <div className="absolute bg-green  top-12 right-4 h-2/4 w-2/3 shadow-md p-4 rounded-xl md:h-96 md:w-96 md:right-0">
+                <p className="text-white">
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                  Accusamus odit voluptatibus tempora dolor debitis eius illo
+                  fuga error repellat vitae, sequi nulla natus, temporibus sit
+                  atque laborum numquam itaque similique?
+                </p>
+              </div>
             )}
           </div>
-
-          {/* Mobile Hamburger menu  */}
         </div>
       </div>
     </>
@@ -128,3 +64,14 @@ const Header = () => {
 };
 
 export default Header;
+
+{
+  /* <div className="flex gap-3">
+  <button className="inline-block px-3 py-2 font-para text-green md:transition-all text-md">
+    Sign In
+  </button>
+  <button className="inline-block px-5 py-2 rounded-lg text-white bg-btnColor font-para md:hover:bg-green md:transition-all">
+    Sign Up
+  </button>
+</div>; */
+}

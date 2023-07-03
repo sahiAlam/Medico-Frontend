@@ -1,41 +1,29 @@
 import React from "react";
 import banner from "../../../assets/banner.png";
-import { AiFillPlayCircle } from "react-icons/ai";
+import Header from "../../../components/header/Header";
 
 const Banner = () => {
   return (
-    <div className="bg-gray">
-      <div className="container mx-auto px-2 md:px-10 flex items-center justify-center flex-col md:flex-row gap-5">
+    <div className="bg-gray dark:bg-black h-screen">
+      <Header />
+      <div className="container mx-auto px-4 md:px-10 flex items-center justify-center flex-col md:flex-row gap-5">
         <div className="capitalize">
-          <h1 className="text-3xl md:text-4xl xl:text-6xl mt-5 md:mt-14 font-bold">
-            Providing quality <span className="text-btnColor">healthcare</span>{" "}
-            for a <span className="text-green">bigger</span> and{" "}
-            <span className="text-green">healthy</span> future
+          <h1 className="dark:text-gray text-3xl md:text-4xl xl:text-6xl mt-3 md:mt-14 font-bold">
+            Medical Appointment <span className="text-btnColor">Booking</span>{" "}
+            Made Easy. <span className="text-green">Book</span>{" "}
+            <span className="text-green"> Appointment</span> Online
           </h1>
-          <p className="text-md md:text-lg mt-5">
-            At our hospital, we are dedicated to providing exceptional medical
-            care to our patients and their families. Our experienced team of
-            medical professionals, cutting-edge technology, and compassionate
-            approach make us a leader in the healthcare industry.
+          <p className="dark:text-gray text-md md:text-lg mt-3">
+            Confirm Your Booking Instantly. No More Waiting On Hold Or Playing
+            Phone Tag With Busy Receptionists. your personal information and
+            medical history are kept secure and confidential.
           </p>
-
-          <div className="flex gap-3 md:gap-6 my-5 md:my-12">
-            <div>
-              <button className="text-white bg-btnColor px-5 py-2 md:text-lg rounded-3xl hover:scale-105 transition-all">
-                Appointments
-              </button>
-            </div>
-            <div>
-              <button className="text-white bg-green px-8 py-2 md:text-lg rounded-3xl hover:scale-105 transition-all">
-                Explore
-              </button>
-            </div>
-          </div>
+          <button className="mt-3 md:mt-5 text-white bg-btnColor px-5 py-2 md:text-lg rounded-3xl hover:scale-105 transition-all">
+            Appointment
+          </button>
         </div>
         <div>
-          <div>
-            <img src={banner} className="w-64 md:w-auto md:mt-8" />
-          </div>
+          <img src={banner} className="w-64 md:w-auto md:mt-8" />
         </div>
       </div>
     </div>

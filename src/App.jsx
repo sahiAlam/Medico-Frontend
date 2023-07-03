@@ -13,21 +13,22 @@ import Footer from "./components/footer/Footer";
 import Login from "./pages/login/Login";
 import ContactUs from "./pages/contactUs/ContactUs";
 import Services from "./pages/services/Services";
+import Registration from "./pages/register/Registration";
 
 const App = () => {
   // const location = useLocation();
   return (
     <>
       <Router>
-        <Header />
+        {/* <Header /> */}
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/register" element={<Registration />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/contactUs" element={<ContactUs />} />
-          <Route path="/services" element={<Services />} />
+          {/* <Route path="/contactUs" element={<ContactUs />} /> */}
+          {/* <Route path="/services" element={<Services />} /> */}
         </Routes>
-        <Footer />
+        {/* <Footer /> */}
       </Router>
     </>
   );
