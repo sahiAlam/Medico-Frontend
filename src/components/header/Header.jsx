@@ -4,12 +4,15 @@ import Logo from "../logo/Logo";
 import { BiSolidUserCircle } from "react-icons/bi";
 import { MdLightMode, MdDarkMode, MdOutlineEdit } from "react-icons/md";
 
-import profileImage from "../../assets/avatar.png";
+import ProfileCard from "../profileCard/ProfileCard";
+import { NavLink } from "react-router-dom";
 
 const Header = () => {
   const [theme, setTheme] = useState("dark");
   const [profilePopup, setProfilePopup] = useState(false);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
+  // Theme
   useEffect(() => {
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
@@ -41,50 +44,23 @@ const Header = () => {
               />
             )}
 
-            <BiSolidUserCircle
-              size={30}
-              className="cursor-pointer"
-              onClick={() => setProfilePopup(!profilePopup)}
-              color={theme === "light" ? "" : "white"}
-            />
-
-            {profilePopup && (
-              <div className="absolute bg-green  top-12 right-4 h-2/4 w-2/3 shadow-md rounded-xl md:h-96 md:w-96 md:right-0">
-                <div className="py-4">
-                  <img
-                    src={profileImage}
-                    alt="profileImage"
-                    className="w-20 h-20 md:w-24 md:h-24 mx-auto rounded-full border-2 border-gray "
-                  />
-
-                  <h3 className="text-center my-1 font-bold md:text-xl">
-                    Sahil Khan
-                  </h3>
-                </div>
-                <div className="text-gray dark:text-black absolute bg-black dark:bg-white h-full w-full rounded-3xl p-3">
-                  <div className="flex justify-between text-sm md:text-lg mt-2 p-2 dark:bg-gray rounded-xl">
-                    <h4 className="font-bold">Email</h4>
-                    <p>ksahi4088@gmail.com</p>
-                  </div>
-                  <div className="flex justify-between text-sm md:text-lg mt-2 p-2 dark:bg-gray rounded-xl">
-                    <h4 className="font-bold">Date of Birth</h4>
-                    <p>30/04/2001</p>
-                  </div>
-                  <div className="flex justify-between text-sm md:text-lg mt-2 p-2 dark:bg-gray rounded-xl">
-                    <h4 className="font-bold">Gender</h4>
-                    <p>Male</p>
-                  </div>
-                  <div className="flex justify-between text-sm md:text-lg mt-2 p-2 dark:bg-gray rounded-xl">
-                    <h4 className="font-bold">Phone</h4>
-                    <p>+91 6295331089</p>
-                  </div>
-
-                  <button className="outline-none mt-24 w-2/5 mx-auto bg-green text-sm dark:bg-btnColor block py-2 rounded-full">
-                    Sign Out
-                  </button>
-                </div>
-              </div>
+            {isUserLoggedIn ? (
+              <BiSolidUserCircle
+                size={30}
+                className="cursor-pointer"
+                onClick={() => setProfilePopup(!profilePopup)}
+                color={theme === "light" ? "" : "white"}
+              />
+            ) : (
+              <NavLink
+                to={"login"}
+                className="bg-gradient-to-r from-btnColor to-green px-3 md:px-6 py-1 md:py-2 rounded-full text-sm md:text-lg text-gray font-bold md:hover:bg-btnColor md:transition-all"
+              >
+                Log in
+              </NavLink>
             )}
+
+            {profilePopup && <ProfileCard logOutUser={setIsUserLoggedIn} />}
           </div>
         </div>
       </div>

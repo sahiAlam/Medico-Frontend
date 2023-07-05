@@ -10,6 +10,7 @@ export default {
       black: "#292929",
       darkBlack: "#000",
       green: "#7ab072",
+      linkColor: "#60a5fa",
     },
     fontFamily: {
       para: ["Noto Serif Ottoman Siyaq", "serif"],
