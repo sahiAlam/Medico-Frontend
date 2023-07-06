@@ -1,5 +1,3 @@
-// import "./registration.css";
-
 import { useRef, useState, useEffect } from "react";
 import {
   faCheck,

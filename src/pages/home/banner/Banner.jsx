@@ -23,7 +23,7 @@ const Banner = () => {
           </button>
         </div>
         <div>
-          <img src={banner} className="w-64 md:w-auto md:mt-8" />
+          <img src={banner} className="w-64 md:w-[90%] md:mt-2" />
         </div>
       </div>
     </div>

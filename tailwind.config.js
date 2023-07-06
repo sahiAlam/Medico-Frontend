@@ -5,6 +5,7 @@ export default {
   theme: {
     colors: {
       gray: "#ececec",
+      darkGray: "#3f3f46",
       btnColor: "#017d85",
       white: "#fcfefe",
       black: "#292929",
@@ -15,6 +16,15 @@ export default {
     fontFamily: {
       para: ["Noto Serif Ottoman Siyaq", "serif"],
       heading: ["Ysabeau Office", "sans-serif"],
+    },
+    animation: {
+      beat: "beat 4s ease-in-out infinite",
+    },
+    keyframes: {
+      beat: {
+        "0%, 100%": { transform: "scale(1)" },
+        "50%": { transform: "scale(1.03)" },
+      },
     },
   },
   plugins: [],

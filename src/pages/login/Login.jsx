@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 
+import loginImage from "../../assets/login.png";
+
 const Login = () => {
   // Login Form
   const [loginData, setLoginData] = useState({
@@ -17,6 +19,7 @@ const Login = () => {
 
   const handleSubmitLoginForm = (e) => {
     e.preventDefault();
+
     console.log(loginData);
 
     setLoginData({
@@ -28,20 +31,22 @@ const Login = () => {
   return (
     <>
       <div className="bg-gray h-screen">
-        <div className="flex items-center justify-center h-full p-4">
-          <div>
-            <img src="" alt="" />
+        <div className="flex items-center gap-8 justify-center h-full p-4 bg-white">
+          <div className="hidden md:flex">
+            <img src={loginImage} alt="loginImage" className="animate-beat" />
           </div>
-          <div className="w-full md:w-[500px] bg-white py-12 rounded-3xl shadow-xl">
+          <div className="w-full md:w-[500px] py-12 shadow-md rounded-3xl border border-gray">
             <div className="text-center ">
-              <h2 className="font-bold text-3xl">Welcome back</h2>
+              <h2 className="font-bold text-2xl md:text-3xl">Welcome back</h2>
               <p className="text-sm text-black mt-2">
                 Please Enter Your Details
               </p>
             </div>
             <form className="flex flex-col justify-center gap-4 px-5 md:px-8 my-6">
               <div className="flex flex-col">
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email" className="text-darkGray">
+                  Email
+                </label>
                 <input
                   type="email"
                   name="email"
@@ -54,7 +59,9 @@ const Login = () => {
                 />
               </div>
               <div className="flex flex-col">
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password" className="text-darkGray">
+                  Password
+                </label>
                 <input
                   type="password"
                   name="password"
