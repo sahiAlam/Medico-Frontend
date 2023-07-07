@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 import loginImage from "../../assets/login.png";
 
 const Login = () => {
+  const navigate = useNavigate();
   // Login Form
   const [loginData, setLoginData] = useState({
     email: "",
@@ -17,10 +18,29 @@ const Login = () => {
     setLoginData({ ...loginData, [name]: value });
   };
 
-  const handleSubmitLoginForm = (e) => {
+  const handleSubmitLoginForm = async (e) => {
     e.preventDefault();
 
-    console.log(loginData);
+    const { email, password } = loginData;
+
+    const res = await fetch("/api/sessions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+
+    const data = await res.json();
+    console.log(data);
+
+    if (res.status === 400 || !data) {
+      window.alert("Invalid details..");
+    } else {
+      window.alert("Login Successful");
+      navigate("/");
+    }
 
     setLoginData({
       email: "",
@@ -42,7 +62,10 @@ const Login = () => {
                 Please Enter Your Details
               </p>
             </div>
-            <form className="flex flex-col justify-center gap-4 px-5 md:px-8 my-6">
+            <form
+              method="POST"
+              className="flex flex-col justify-center gap-4 px-5 md:px-8 my-6"
+            >
               <div className="flex flex-col">
                 <label htmlFor="email" className="text-darkGray">
                   Email
