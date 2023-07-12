@@ -1,6 +1,7 @@
 {
   "name": "medico-frontend",
   "private": true,
+  "proxy": "http://localhost:8080",
   "version": "0.0.0",
   "type": "module",
   "description": "medical appointment application",
@@ -10,7 +11,6 @@
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
-  "proxy": "http://localhost:8080",
   "dependencies": {
     "@auth0/auth0-react": "^2.1.1",
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
