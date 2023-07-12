@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-
 import signupImage from "../../assets/signup.avif";
 
 const SignUp = () => {
@@ -14,12 +13,12 @@ const SignUp = () => {
   ];
 
   const [signupData, setSignupData] = useState({
-    fName: "",
-    lName: "",
+    firstName: "",
+    lastName: "",
     email: "",
     profession: professionOptions[0].text,
     password: "",
-    cPassword: "",
+    passwordConfirmation: "",
     isDoctor: false,
   });
 
@@ -32,31 +31,64 @@ const SignUp = () => {
 
   const handleSubmitSignupForm = async (e) => {
     e.preventDefault();
-    const { fName, lName, email, password, cPassword, isDoctor } = signupData;
+    let {
+      firstName,
+      lastName,
+      email,
+      password,
+      passwordConfirmation,
+      isDoctor,
+    } = signupData;
 
-    const res = await fetch("/api/user", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        fName,
-        lName,
-        password,
-        cPassword,
-        email,
-        isDoctor,
-      }),
-    });
+    if (
+      signupData.firstName ||
+      signupData.lastName ||
+      signupData.email ||
+      signupData.password ||
+      signupData.passwordConfirmation
+    ) {
+      try {
+        const res = await fetch("http://localhost:8080/api/user", {
+          method: "POST",
+          body: JSON.stringify({
+            firstName,
+            lastName,
+            password,
+            passwordConfirmation,
+            email,
+            isDoctor,
+          }),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        });
 
-    const data = await res.json();
+        const data = await res.json();
 
-    setSignupData({
-      fName: "",
-      lName: "",
-      email: "",
-      profession: professionOptions[0].text,
-      password: "",
-      cPassword: "",
-    });
+        if (data?.id) {
+          alert(data.message);
+          navigate("/user/verify");
+        } else {
+          alert("Invalid credential, please check your data..");
+        }
+      } catch (err) {
+        if (err) {
+          console.log(err);
+        }
+      }
+
+      setSignupData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        profession: professionOptions[0].text,
+        password: "",
+        passwordConfirmation: "",
+        isDoctor: false,
+      });
+    } else {
+      alert("Invalid Inputs");
+    }
   };
 
   return (
@@ -84,32 +116,32 @@ const SignUp = () => {
               className="flex flex-col justify-center gap-2 px-5 md:px-8 my-4"
             >
               <div className="flex flex-col">
-                <label htmlFor="fName" className="text-darkGray">
+                <label htmlFor="firstName" className="text-darkGray">
                   First Name
                 </label>
                 <input
                   type="text"
-                  name="fName"
-                  id="fName"
+                  name="firstName"
+                  id="firstName"
                   placeholder="Your First Name"
                   autoComplete="off"
-                  value={signupData.fName}
+                  value={signupData.firstName}
                   onChange={handleSignupData}
                   className="w-full p-2 outline-none rounded-lg border border-gray"
                 />
               </div>
 
               <div className="flex flex-col">
-                <label htmlFor="lName" className="text-darkGray">
+                <label htmlFor="lastName" className="text-darkGray">
                   Last Name
                 </label>
                 <input
                   type="text"
-                  name="lName"
-                  id="lName"
+                  name="lastName"
+                  id="lastName"
                   placeholder="Your Last Name"
                   autoComplete="off"
-                  value={signupData.lName}
+                  value={signupData.lastName}
                   onChange={handleSignupData}
                   className="w-full p-2 outline-none rounded-lg border border-gray"
                 />
@@ -172,11 +204,11 @@ const SignUp = () => {
                 </label>
                 <input
                   type="password"
-                  name="cPassword"
-                  id="cPassword"
+                  name="passwordConfirmation"
+                  id="passwordConfirmation"
                   placeholder="Confirm Your Password"
                   autoComplete="off"
-                  value={signupData.cPassword}
+                  value={signupData.passwordConfirmation}
                   onChange={handleSignupData}
                   className="w-full p-2 outline-none rounded-lg border border-gray"
                 />

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import loginImage from "../../assets/login.png";
+import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -23,29 +24,35 @@ const Login = () => {
 
     const { email, password } = loginData;
 
-    const res = await fetch("/api/sessions", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    });
+    if (email && password) {
+      try {
+        const res = await fetch("http://localhost:8080/api/sessions/", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email,
+            password,
+          }),
+        });
 
-    const data = await res.json();
-    console.log(data);
+        const data = await res.json();
 
-    if (res.status === 400 || !data) {
-      window.alert("Invalid details..");
+        console.log(data);
+
+        if (data?.accessToken && data?.refreshToken) {
+          window.alert("Login Successful");
+          navigate("/");
+        } else if (data?.message) {
+          alert(data.message);
+        } else {
+          alert("Wrong Input..");
+        }
+      } catch (err) {
+        if (err) throw err;
+      }
     } else {
-      window.alert("Login Successful");
-      navigate("/");
+      alert("Please fill the Data");
     }
-
-    setLoginData({
-      email: "",
-      password: "",
-    });
   };
 
   return (
