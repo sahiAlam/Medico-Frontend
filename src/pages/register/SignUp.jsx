@@ -1,95 +1,61 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import signupImage from "../../assets/signup.avif";
+import { useFormik } from "formik";
+import { signUpSchema } from "../../schemas/validationSchema";
+
+const professionOptions = [
+  { value: "", text: "--Choose an Option--" },
+  { value: "patient", text: "Patient" },
+  { value: "doctor", text: "Doctor" },
+  { value: "other", text: "Other" },
+];
+
+const initialValues = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  profession: "",
+  password: "",
+  passwordConfirmation: "",
+  isDoctor: false,
+};
 
 const SignUp = () => {
   const navigate = useNavigate();
 
-  const professionOptions = [
-    { value: "", text: "--Choose an Option--" },
-    { value: "patient", text: "Patient" },
-    { value: "doctor", text: "Doctor" },
-    { value: "other", text: "Other" },
-  ];
-
-  const [signupData, setSignupData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    profession: professionOptions[0].text,
-    password: "",
-    passwordConfirmation: "",
-    isDoctor: false,
-  });
-
-  const handleSignupData = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-
-    setSignupData({ ...signupData, [name]: value });
-  };
-
-  const handleSubmitSignupForm = async (e) => {
-    e.preventDefault();
-    let {
-      firstName,
-      lastName,
-      email,
-      password,
-      passwordConfirmation,
-      isDoctor,
-    } = signupData;
-
-    if (
-      signupData.firstName ||
-      signupData.lastName ||
-      signupData.email ||
-      signupData.password ||
-      signupData.passwordConfirmation
-    ) {
-      try {
-        const res = await fetch("http://localhost:8080/api/user", {
-          method: "POST",
-          body: JSON.stringify({
-            firstName,
-            lastName,
-            password,
-            passwordConfirmation,
-            email,
-            isDoctor,
-          }),
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-          },
-        });
-
-        const data = await res.json();
-
-        if (data?.id) {
-          alert(data.message);
-          navigate("/user/verify");
-        } else {
-          alert("Invalid credential, please check your data..");
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+    useFormik({
+      initialValues,
+      validationSchema: signUpSchema,
+      onSubmit: async (values, action) => {
+        if (values.profession === "doctor") {
+          values.isDoctor = true;
         }
-      } catch (err) {
-        if (err) {
-          console.log(err);
-        }
-      }
+        try {
+          const res = await fetch("http://localhost:8080/api/user", {
+            method: "POST",
+            body: JSON.stringify(values),
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+            },
+          });
 
-      setSignupData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        profession: professionOptions[0].text,
-        password: "",
-        passwordConfirmation: "",
-        isDoctor: false,
-      });
-    } else {
-      alert("Invalid Inputs");
-    }
-  };
+          const data = await res.json();
+
+          if (data?.id) {
+            alert(data.message);
+            navigate("/user/verify");
+          } else {
+            alert("Invalid credential, please check your data..");
+          }
+        } catch (err) {
+          if (err) {
+            console.log(err);
+          }
+        }
+      },
+    });
 
   return (
     <>
@@ -114,6 +80,7 @@ const SignUp = () => {
             <form
               method="POST"
               className="flex flex-col justify-center gap-2 px-5 md:px-8 my-4"
+              onSubmit={handleSubmit}
             >
               <div className="flex flex-col">
                 <label htmlFor="firstName" className="text-darkGray">
@@ -125,10 +92,14 @@ const SignUp = () => {
                   id="firstName"
                   placeholder="Your First Name"
                   autoComplete="off"
-                  value={signupData.firstName}
-                  onChange={handleSignupData}
                   className="w-full p-2 outline-none rounded-lg border border-gray"
+                  value={values.firstName}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
+                {errors.firstName && touched.firstName ? (
+                  <p className="text-danger text-sm">{errors.firstName}</p>
+                ) : null}
               </div>
 
               <div className="flex flex-col">
@@ -141,10 +112,14 @@ const SignUp = () => {
                   id="lastName"
                   placeholder="Your Last Name"
                   autoComplete="off"
-                  value={signupData.lastName}
-                  onChange={handleSignupData}
                   className="w-full p-2 outline-none rounded-lg border border-gray"
+                  value={values.lastName}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
+                {errors.lastName && touched.lastName ? (
+                  <p className="text-danger text-sm">{errors.lastName}</p>
+                ) : null}
               </div>
 
               <div className="flex flex-col">
@@ -157,10 +132,14 @@ const SignUp = () => {
                   id="email"
                   placeholder="Your Email"
                   autoComplete="off"
-                  value={signupData.email}
-                  onChange={handleSignupData}
                   className="w-full p-2 outline-none rounded-lg border border-gray"
+                  value={values.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
+                {errors.email && touched.email ? (
+                  <p className="text-danger text-sm">{errors.email}</p>
+                ) : null}
               </div>
 
               <div className="flex flex-col">
@@ -171,8 +150,9 @@ const SignUp = () => {
                   name="profession"
                   id="profession"
                   className="w-full p-2 outline-none rounded-lg border border-gray text-darkGray"
-                  value={signupData.profession}
-                  onChange={handleSignupData}
+                  value={values.profession}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 >
                   {professionOptions.map((option) => (
                     <option key={option.value} value={option.value}>
@@ -180,6 +160,9 @@ const SignUp = () => {
                     </option>
                   ))}
                 </select>
+                {errors.profession && touched.profession ? (
+                  <p className="text-danger text-sm">{errors.profession}</p>
+                ) : null}
               </div>
 
               <div className="flex flex-col">
@@ -192,10 +175,14 @@ const SignUp = () => {
                   id="password"
                   placeholder="Your Password"
                   autoComplete="off"
-                  value={signupData.password}
-                  onChange={handleSignupData}
                   className="w-full p-2 outline-none rounded-lg border border-gray"
+                  value={values.password}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
+                {errors.password && touched.password ? (
+                  <p className="text-danger text-sm">{errors.password}</p>
+                ) : null}
               </div>
 
               <div className="flex flex-col">
@@ -208,16 +195,19 @@ const SignUp = () => {
                   id="passwordConfirmation"
                   placeholder="Confirm Your Password"
                   autoComplete="off"
-                  value={signupData.passwordConfirmation}
-                  onChange={handleSignupData}
                   className="w-full p-2 outline-none rounded-lg border border-gray"
+                  value={values.passwordConfirmation}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
+                {errors.passwordConfirmation && touched.passwordConfirmation ? (
+                  <p className="text-danger text-sm">
+                    {errors.passwordConfirmation}
+                  </p>
+                ) : null}
               </div>
 
-              <button
-                className="w-full bg-gradient-to-r from-btnColor to-green text-gray p-2 mt-2 rounded-lg md:hover:bg-gradient-to-r md:hover:from-green md:hover:to-btnColor hover:transition-all"
-                onClick={handleSubmitSignupForm}
-              >
+              <button className="w-full bg-gradient-to-r from-btnColor to-green text-gray p-2 mt-2 rounded-lg md:hover:bg-gradient-to-r md:hover:from-green md:hover:to-btnColor hover:transition-all">
                 Sign Up
               </button>
             </form>
