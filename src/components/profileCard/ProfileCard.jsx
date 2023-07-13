@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import profileImage from "../../assets/avatar.png";
 
-const ProfileCard = ({ logOutUser }) => {
-  console.log(logOutUser);
+const ProfileCard = () => {
   return (
     <>
       <div className="absolute bg-green  top-12 right-4 h-2/4 w-2/3 shadow-md rounded-xl md:h-96 md:w-96 md:right-0">

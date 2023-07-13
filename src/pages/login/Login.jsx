@@ -13,7 +13,6 @@ const initialValues = {
 const Login = () => {
   const navigate = useNavigate();
   // Login Form
-  const errorMessage = [];
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues,
@@ -28,8 +27,7 @@ const Login = () => {
 
           const data = await res.json();
 
-          errorMessage.push(data);
-          console.log(errorMessage);
+          localStorage.setItem("access", data.accessToken);
 
           if (data?.accessToken && data?.refreshToken) {
             // window.alert("Login Successful");
@@ -115,7 +113,7 @@ const Login = () => {
             <div className="flex justify-center gap-2">
               <p>Don't have an account?</p>
               <NavLink
-                to="/signup"
+                to="/user/signup"
                 className="text-linkColor underline md:hover:scale-105 transition-all"
               >
                 Sign Up

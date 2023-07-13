@@ -21,6 +21,12 @@ const Header = () => {
     }
   }, [theme]);
 
+  useEffect(() => {
+    if (localStorage.getItem("access")) {
+      setIsUserLoggedIn(true);
+    }
+  }, []);
+
   return (
     <>
       <div className="dark:bg-black md:sticky top-0 shadow-md ">
@@ -53,7 +59,7 @@ const Header = () => {
               />
             ) : (
               <NavLink
-                to={"login"}
+                to={"user/login"}
                 className="bg-gradient-to-r from-btnColor to-green px-3 md:px-6 py-1 md:py-2 rounded-full text-sm md:text-lg text-gray font-bold md:hover:bg-btnColor md:transition-all"
               >
                 Log in

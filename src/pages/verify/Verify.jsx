@@ -9,7 +9,7 @@ const Verify = () => {
   const handleVerificationCode = (e) => {
     setVerificationCode(e.target.value);
   };
-  const id = "64afb03611300fc1424cf5c3";
+  const id = "64b01d3bc365604009738300";
 
   const submitVerificationCode = async (e) => {
     e.preventDefault();
@@ -33,7 +33,7 @@ const Verify = () => {
         console.log(data);
         if (data?.accessToken && data?.refreshToken) {
           alert(data?.message);
-          navigate("/login");
+          navigate("/user/login");
         }
       } catch (err) {
         if (err) {

@@ -214,7 +214,7 @@ const SignUp = () => {
             <div className="flex justify-center gap-2 pb-10 sm:pb-0">
               <p>Already have an account?</p>
               <NavLink
-                to="/login"
+                to="/user/login"
                 className="text-linkColor underline md:hover:scale-105 transition-all"
               >
                 Login
