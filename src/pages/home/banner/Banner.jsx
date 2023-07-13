@@ -1,8 +1,13 @@
 import React from "react";
 import banner from "../../../assets/banner.png";
 import Header from "../../../components/header/Header";
+import { useNavigate } from "react-router";
 
 const Banner = () => {
+  const navigate = useNavigate();
+  const handleClickAppointment = () => {
+    navigate("/user/patient/appointment");
+  };
   return (
     <div className="bg-gray dark:bg-black h-screen">
       <Header />
@@ -18,7 +23,10 @@ const Banner = () => {
             Phone Tag With Busy Receptionists. your personal information and
             medical history are kept secure and confidential.
           </p>
-          <button className="mt-3 md:mt-5 text-white bg-gradient-to-r from-btnColor to-green px-5 py-2 md:text-lg rounded-3xl hover:scale-105 transition-all">
+          <button
+            className="mt-3 md:mt-5 text-white bg-gradient-to-r from-btnColor to-green px-5 py-2 md:text-lg rounded-3xl hover:scale-105 transition-all"
+            onClick={handleClickAppointment}
+          >
             Appointment
           </button>
         </div>
