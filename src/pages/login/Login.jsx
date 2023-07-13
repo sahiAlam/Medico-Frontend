@@ -32,7 +32,7 @@ const Login = () => {
           console.log(errorMessage);
 
           if (data?.accessToken && data?.refreshToken) {
-            window.alert("Login Successful");
+            // window.alert("Login Successful");
             navigate("/");
           } else if (data?.message) {
             alert(data.message);
@@ -102,7 +102,10 @@ const Login = () => {
                   <p className="text-danger text-sm">{errors.password}</p>
                 ) : null}
               </div>
-              <NavLink className="text-right text-linkColor underline md:hover:scale-105 transition-all">
+              <NavLink
+                to="/user/forgotPassword"
+                className="text-right text-linkColor underline md:hover:scale-105 transition-all"
+              >
                 Forgot Password
               </NavLink>
               <button className="w-full bg-gradient-to-r from-btnColor to-green text-gray p-2 rounded-lg md:hover:bg-gradient-to-r md:hover:from-green md:hover:to-btnColor hover:transition-all">

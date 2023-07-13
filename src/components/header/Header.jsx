@@ -8,7 +8,7 @@ import ProfileCard from "../profileCard/ProfileCard";
 import { NavLink } from "react-router-dom";
 
 const Header = () => {
-  const [theme, setTheme] = useState("dark");
+  const [theme, setTheme] = useState("light");
   const [profilePopup, setProfilePopup] = useState(false);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
