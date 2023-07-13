@@ -2,58 +2,48 @@ import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import loginImage from "../../assets/login.png";
-import axios from "axios";
+import { useFormik } from "formik";
+import { loginSchema } from "../../schemas/validationSchema";
+
+const initialValues = {
+  email: "",
+  password: "",
+};
 
 const Login = () => {
   const navigate = useNavigate();
   // Login Form
-  const [loginData, setLoginData] = useState({
-    email: "",
-    password: "",
-  });
+  const errorMessage = [];
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+    useFormik({
+      initialValues,
+      validationSchema: loginSchema,
+      onSubmit: async (values) => {
+        try {
+          const res = await fetch("http://localhost:8080/api/sessions/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(values),
+          });
 
-  const handleLoginData = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
+          const data = await res.json();
 
-    setLoginData({ ...loginData, [name]: value });
-  };
+          errorMessage.push(data);
+          console.log(errorMessage);
 
-  const handleSubmitLoginForm = async (e) => {
-    e.preventDefault();
-
-    const { email, password } = loginData;
-
-    if (email && password) {
-      try {
-        const res = await fetch("http://localhost:8080/api/sessions/", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email,
-            password,
-          }),
-        });
-
-        const data = await res.json();
-
-        console.log(data);
-
-        if (data?.accessToken && data?.refreshToken) {
-          window.alert("Login Successful");
-          navigate("/");
-        } else if (data?.message) {
-          alert(data.message);
-        } else {
-          alert("Wrong Input..");
+          if (data?.accessToken && data?.refreshToken) {
+            window.alert("Login Successful");
+            navigate("/");
+          } else if (data?.message) {
+            alert(data.message);
+          } else {
+            alert("Wrong Input..");
+          }
+        } catch (err) {
+          if (err) throw err;
         }
-      } catch (err) {
-        if (err) throw err;
-      }
-    } else {
-      alert("Please fill the Data");
-    }
-  };
+      },
+    });
 
   return (
     <>
@@ -70,6 +60,7 @@ const Login = () => {
               </p>
             </div>
             <form
+              onSubmit={handleSubmit}
               method="POST"
               className="flex flex-col justify-center gap-4 px-5 md:px-8 my-6"
             >
@@ -84,9 +75,13 @@ const Login = () => {
                   className="w-full p-2 outline-none rounded-lg border border-gray"
                   placeholder="Enter Your Email"
                   autoComplete="off"
-                  value={loginData.email}
-                  onChange={handleLoginData}
+                  value={values.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
+                {errors.email && touched.email ? (
+                  <p className="text-danger text-sm">{errors.email}</p>
+                ) : null}
               </div>
               <div className="flex flex-col">
                 <label htmlFor="password" className="text-darkGray">
@@ -99,17 +94,18 @@ const Login = () => {
                   className="w-full p-2 outline-none rounded-lg border border-gray"
                   placeholder="Enter Your Password"
                   autoComplete="off"
-                  value={loginData.password}
-                  onChange={handleLoginData}
+                  value={values.password}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
+                {errors.password && touched.password ? (
+                  <p className="text-danger text-sm">{errors.password}</p>
+                ) : null}
               </div>
               <NavLink className="text-right text-linkColor underline md:hover:scale-105 transition-all">
                 Forgot Password
               </NavLink>
-              <button
-                className="w-full bg-gradient-to-r from-btnColor to-green text-gray p-2 rounded-lg md:hover:bg-gradient-to-r md:hover:from-green md:hover:to-btnColor hover:transition-all"
-                onClick={handleSubmitLoginForm}
-              >
+              <button className="w-full bg-gradient-to-r from-btnColor to-green text-gray p-2 rounded-lg md:hover:bg-gradient-to-r md:hover:from-green md:hover:to-btnColor hover:transition-all">
                 Sign in
               </button>
             </form>
