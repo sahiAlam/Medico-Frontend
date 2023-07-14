@@ -22,7 +22,7 @@ const Header = () => {
   }, [theme]);
 
   useEffect(() => {
-    if (localStorage.getItem("access")) {
+    if (localStorage.getItem("accessToken")) {
       setIsUserLoggedIn(true);
     }
   }, []);

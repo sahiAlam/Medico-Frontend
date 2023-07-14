@@ -27,10 +27,10 @@ const Login = () => {
 
           const data = await res.json();
 
-          localStorage.setItem("access", data.accessToken);
+          localStorage.setItem("accessToken", data.accessToken);
 
           if (data?.accessToken && data?.refreshToken) {
-            // window.alert("Login Successful");
+            window.alert("Login Successful..");
             navigate("/");
           } else if (data?.message) {
             alert(data.message);

@@ -26,7 +26,7 @@ const Appointment = () => {
       // navigate("/user/login");
     }
 
-    if (!localStorage.getItem("access")) {
+    if (!localStorage.getItem("accessToken")) {
       navigate("/user/login");
     }
   };

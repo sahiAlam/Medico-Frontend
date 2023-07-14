@@ -1,7 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import profileImage from "../../assets/avatar.png";
+import { useNavigate } from "react-router";
 
 const ProfileCard = () => {
+  const navigate = useNavigate();
+
+  const handleLoggedOut = () => {
+    localStorage.clear(); // remove token on logout
+    navigate("user/login");
+  };
+
   return (
     <>
       <div className="absolute bg-green  top-12 right-4 h-2/4 w-2/3 shadow-md rounded-xl md:h-96 md:w-96 md:right-0">
@@ -31,7 +39,10 @@ const ProfileCard = () => {
             <p>+91 6295331089</p>
           </div>
 
-          <button className="dark:text-gray outline-none mt-24 w-2/5 mx-auto bg-green text-sm dark:bg-btnColor block py-2 rounded-full md:hover:scale-110 md:transition-all">
+          <button
+            className="dark:text-gray outline-none mt-24 w-2/5 mx-auto bg-green text-sm dark:bg-btnColor block py-2 rounded-full md:hover:scale-110 md:transition-all"
+            onClick={handleLoggedOut}
+          >
             Sign Out
           </button>
         </div>
